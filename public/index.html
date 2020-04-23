@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Quoting</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div>
+    <section>
+      <h1>Daily Quoting</h1>
+    </section>
+    <section>
+      <form action="" method="POST">
+        <input id="quote" type="text" placeholder="Enter your Qoute">
+        <input id="upload" type="submit" value="Put it there">
+      </form>
+    </section>
+  </div>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBGvEnGpvbIEmg6t9kf-Y690ex94A-Qvq8",
+      authDomain: "quoting-ninja.firebaseapp.com",
+      databaseURL: "https://quoting-ninja.firebaseio.com",
+      projectId: "quoting-ninja",
+      storageBucket: "quoting-ninja.appspot.com",
+      messagingSenderId: "648308871276",
+      appId: "1:648308871276:web:cc3e8009a3085ad2da4849"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
