@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <title>Daily Quoting</title>
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function () { console.log("Service Worker Registered"); });
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="logo.png" class="img-fluid ml-0" width="20%">
+                <h1>Daily Quoting | Admin</h1>
+                <p><span id="user"></span> <button class="btn btn-primary btn-sm" id="logout">Logout</button></p>
+            </div>
+        </div>
+        <div class="col-md-12 mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width:5%">#</th>
+                        <th scope="col" style="width:60%">Msg</th>
+                        <th scope="col" style="width:10%">Time</th>
+                        <th scope="col" style="width:25%">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-5 pt-5">
+                <a href="index.html">Home View</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBGvEnGpvbIEmg6t9kf-Y690ex94A-Qvq8",
+            authDomain: "quoting-ninja.firebaseapp.com",
+            databaseURL: "https://quoting-ninja.firebaseio.com",
+            projectId: "quoting-ninja",
+            storageBucket: "quoting-ninja.appspot.com",
+            messagingSenderId: "648308871276",
+            appId: "1:648308871276:web:cc3e8009a3085ad2da4849"
+
+        };
+
+        firebase.initializeApp(config);
+
+        document.getElementById('logout').addEventListener('click', logoutUser);
+
+        var i = 1;
+        firebase.database().ref('thoughts').once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                document.getElementById('data').innerHTML += `
+                    <tr>
+                        <th scope="row">`+ i++ + `</th>
+                        <td>`+ childData.msg + `</td>
+                        <td>`+ childData.timestamp + `</td>
+                        <td><button class='btn btn-danger btn-sm' onclick='deleteData("`+ childKey + `")'>Delete</button></td>
+                    </tr>
+                `;
+            });
+        });
+
+        function deleteData(id) {
+            console.log(id);
+
+            if (confirm("Do you want to Delete ?")) {
+                console.log(id);
+
+                firebase.database().ref('thoughts/' + id).remove().then(function () {
+                    alert('Data Deleted');
+                    location.reload();
+                }).catch(function (e) {
+                    alert(e);
+                })
+            }
+            else {
+                console.log("Do Nothing");
+            }
+        }
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                var email = user.email;
+                document.getElementById('user').innerHTML = email;
+                var uid = user.uid;
+
+            } else {
+                // User is signed out.
+                document.location = "login.html";
+            }
+        });
+
+        function logoutUser() {
+            firebase.auth().signOut().then(function () {
+                // Sign-out successful.
+                document.location = "login.html";
+                console.log('User Logged Out!');
+            }).catch(function (error) {
+                // An error happened.
+                console.log(error);
+            });
+        }
+
+
+    </script>
+
+</body>
+
+</html>
