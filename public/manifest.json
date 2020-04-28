@@ -1,6 +1,6 @@
 {
-  "name": "Share Thought",
-  "short_name": "Share Thought",
+  "name": "Daily Quoting",
+  "short_name": "Daily Quoting",
   "start_url": "./?utm_source=web_app_manifest",
   "display": "standalone",
   "theme_color": "#6284F3",
